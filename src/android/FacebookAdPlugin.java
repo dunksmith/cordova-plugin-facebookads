@@ -159,7 +159,7 @@ public class FacebookAdPlugin extends GenericAdPlugin {
             	FlexNativeAd unit = new FlexNativeAd();
             	unit.adId = adId;
             	unit.x = unit.y = 0;
-            	unit.w = unit.h = 80;
+            	unit.w = unit.h = 10;
             	
             	unit.view = new View(getActivity());
 				unit.tracking = new View(getActivity());
@@ -393,7 +393,7 @@ public class FacebookAdPlugin extends GenericAdPlugin {
     		@Override
     		public void onAdLoaded(Ad arg0) {
     			if((! bannerVisible) && autoShowBanner) {
-    				showBanner(adPosition, posX, posY);
+    				showBanner(adPosition, 0, 50);
     			}
             	fireAdEvent(EVENT_AD_LOADED, ADTYPE_BANNER);
     		}

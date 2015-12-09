@@ -137,6 +137,12 @@ public class FacebookAdPlugin extends GenericAdPlugin {
 	    activity.runOnUiThread(new Runnable(){
             @Override
             public void run() {
+                // View.setLeft not supported < API 11
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
+                    fireAdErrorEvent(EVENT_AD_FAILLOAD, 999, "Native ads not supported on API < 11", ADTYPE_NATIVE);
+                    return;
+                }
+
             	if(nativeAds.containsKey(adId)) {
             		removeNativeAd(adId);
             	}
@@ -313,6 +319,12 @@ public class FacebookAdPlugin extends GenericAdPlugin {
     
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	public void setNativeAdClickArea(final String adId, int x, int y, int w, int h) {
+
+        // View.setLeft not supported < API 11
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
+            return;
+        }
+
 		final FlexNativeAd unit = nativeAds.get(adId);
 		if(unit != null) {
 	        DisplayMetrics metrics = cordova.getActivity().getResources().getDisplayMetrics();

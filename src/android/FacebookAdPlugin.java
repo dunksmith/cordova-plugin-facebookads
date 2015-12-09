@@ -32,9 +32,9 @@ import com.rjfun.cordova.ad.GenericAdPlugin;
 public class FacebookAdPlugin extends GenericAdPlugin {
     private static final String LOGTAG = "FacebookAds";
 
+    //NOTE: These test placement IDs are now invalid
     private static final String TEST_BANNER_ID = "726719434140206_777151452430337";
     private static final String TEST_INTERSTITIAL_ID = "726719434140206_777151589096990";
-    private static final String TEST_NATIVEAD_ID = "726719434140206_777151705763645";
     
     private AdSize adSize;
     
@@ -99,17 +99,12 @@ public class FacebookAdPlugin extends GenericAdPlugin {
 		return TEST_INTERSTITIAL_ID;
 	}
 	
-	protected String __getTestNativeAdId() {
-		return TEST_NATIVEAD_ID;
-	}
-
     @Override
     public boolean execute(String action, JSONArray inputs, CallbackContext callbackContext) throws JSONException {
         PluginResult result = null;
         
     	if (ACTION_CREATE_NATIVEAD.equals(action)) {
             String adid = inputs.optString(0);
-            if(this.testTraffic) adid = this.__getTestNativeAdId();
             this.createNativeAd(adid);
             result = new PluginResult(Status.OK);
             
@@ -357,8 +352,6 @@ public class FacebookAdPlugin extends GenericAdPlugin {
 		}
 		
 		if(isTesting) {
-			testTraffic = true;
-			
         	if(options.has(OPT_DEVICE_HASH)) {
         		this.deviceHash = options.optString( OPT_DEVICE_HASH );
                 Log.d(LOGTAG, "set device hash: " + this.deviceHash);
@@ -378,7 +371,6 @@ public class FacebookAdPlugin extends GenericAdPlugin {
 
 	@Override
 	protected View __createAdView(String adId) {
-		if(isTesting) adId = TEST_BANNER_ID;
 		AdView ad = new AdView(getActivity(), adId, adSize);
         ad.setAdListener(new AdListener(){
     		@Override

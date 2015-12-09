@@ -9,6 +9,7 @@
 #import <FBAudienceNetwork/FBAudienceNetwork.h>
 #import "UITapGestureRecognizer+Spec.h"
 #import "FacebookAdPlugin.h"
+#include "TargetConditionals.h"
 
 #define TEST_BANNER_ID           @"726719434140206_777151452430337"
 #define TEST_INERSTITIAL_ID      @"726719434140206_777151589096990"
@@ -123,8 +124,6 @@
     }
     
     if(self.isTesting) {
-        self.testTraffic = true;
-        
         str = [options objectForKey:OPT_DEVICE_HASH];
         if(str && [str length]>0) {
             NSLog(@"set device hash: %@", str);
@@ -289,7 +288,8 @@
         webViewTapped.delegate = self;
         [[self getView] addGestureRecognizer:webViewTapped];
 
-        if(self.isTesting) {
+        // Need to leave isTesting=false on simulator otherwise it crashes
+        if(self.isTesting || TARGET_IPHONE_SIMULATOR) {
             [unit.view setBackgroundColor:[[UIColor greenColor] colorWithAlphaComponent:0.2f]];
         }
         

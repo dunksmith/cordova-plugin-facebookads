@@ -1,5 +1,6 @@
 package com.rjfun.cordova.facebookads;
 
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Random;
@@ -267,14 +268,14 @@ public class FacebookAdPlugin extends GenericAdPlugin {
 					
 					JSONObject coverInfo = new JSONObject();
                     if(coverImage != null) {
-                        coverInfo.put("url", coverImage.getUrl());
+                        coverInfo.put("url", URLEncoder.encode(coverImage.getUrl(), "utf-8"));
                         coverInfo.put("width", coverImage.getWidth());
                         coverInfo.put("height", coverImage.getHeight());
                     }
 					
 					JSONObject iconInfo = new JSONObject();
                     if(iconForAd != null) {
-                        iconInfo.put("url", iconForAd.getUrl());
+                        iconInfo.put("url", URLEncoder.encode(iconForAd.getUrl(), "utf-8"));
                         iconInfo.put("width", iconForAd.getWidth());
                         iconInfo.put("height", iconForAd.getHeight());
                     }
